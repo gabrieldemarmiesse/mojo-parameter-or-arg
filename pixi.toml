@@ -19,7 +19,7 @@ mojo = ">=25.3.0.dev2025042605"
 
 [package]
 name = "mojo-parameter-or-arg"
-version = "0.1.0"
+version = "0.2.0"
 
 [package.build]
 backend = { name = "pixi-build-rattler-build", version = "*" }
