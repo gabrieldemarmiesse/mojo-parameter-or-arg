@@ -87,7 +87,3 @@ The library leverages Mojo's compile-time parameter system to:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-Based on the proposal and implementation by Gabriel de Marmiesse for the Mojo standard library.
