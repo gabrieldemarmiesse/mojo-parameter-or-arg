@@ -14,7 +14,7 @@ The `ParameterOrArg` type allows Mojo developers to write functions that can acc
 - **Zero overhead** - No runtime cost when used with compile-time values
 
 ## Installation
-
+Make sure that you have https://repo.prefix.dev/mojo-community in the channels list of your `pixi.toml` file.
 Add to your project using pixi:
 
 ```bash
