@@ -61,7 +61,7 @@ def generate_recipe() -> None:
     }
 
     # Populate package information
-    package_name = "zlib"
+    package_name = "mojo-parameter-or-arg"
     recipe["package"]["name"] = PROJECT_CONFIG["package"]["name"]
     recipe["package"]["version"] = PROJECT_CONFIG["package"]["version"]
 

@@ -2,6 +2,8 @@
 
 A Mojo library for seamlessly mixing compile-time parameters and runtime arguments, enabling flexible optimization strategies and reducing code duplication.
 
+Some examples and context can be found in the [proposal](https://github.com/gabrieldemarmiesse/mojo/blob/parameter_or_arg/mojo/proposals/parameter-or-arg.md)
+
 ## Overview
 
 The `ParameterOrArg` type allows Mojo developers to write functions that can accept both compile-time parameters and runtime arguments seamlessly. This enables:
@@ -22,78 +24,31 @@ pixi add mojo-parameter-or-arg
 ## Quick Example
 
 ```mojo
+import random
 from parameter_or_arg import ParameterOrArg, Parameter
 
-def maybe_parameter(x: ParameterOrArg[T=Int]):
+def foo(x: ParameterOrArg[T=Int]):
     @parameter
-    if x.value() < 10:
-        print("x is less than 10")
+    if x.is_parameter:
+        alias y = x.comptime_value
+        print("Compile-time value:", y)
     else:
-        print("x is greater than or equal to 10")
+        print("Runtime value:", x.runtime_value())
+    print("Value (runtime or compile-time):", x.value())
+
 
 def main():
-    # Compile-time usage - condition is evaluated at compile time
-    maybe_parameter(5)
+    # Runtime usage 
+    # (unless inlining and constant folding kick in, then you might get some optimizations)
+    foo(5)
     
-    # Runtime usage - condition is evaluated at runtime
-    var y = 20
-    maybe_parameter(y)
+    # Runtime usage - foo garantees to treat it as a runtime argument"
+    var y = Int(random.random_si64(-10, 10))
+    foo(y)
     
-    # Explicit compile-time usage
-    maybe_parameter(Parameter[15]())
+    # Explicit compile-time usage, foo garantees to treat x as a compile-time parameter
+    foo(Parameter[15]())
 ```
-
-## Key Features
-
-### 1. Flexible Function Arguments
-
-Write functions that work with both compile-time and runtime values:
-
-```mojo
-def flexible_buffer_size(size: ParameterOrArg[T=Int]) -> String:
-    @parameter
-    if size.value() == 1024:
-        return "Optimized for 1KB buffer"
-    else:
-        return "Generic buffer handling"
-```
-
-### 2. Struct Design Flexibility
-
-Create structs that can be either statically or dynamically sized:
-
-```mojo
-struct FlexibleBuffer[_SizeParam: Optional[Int], //]:
-    var data: UnsafePointer[UInt8]
-    var size: ParameterOrArg[_SizeParam]
-    
-    fn __init__(out self, size: ParameterOrArg[_SizeParam]):
-        self.size = size
-        self.data = UnsafePointer[UInt8].alloc(self.size.value())
-```
-
-### 3. Performance Control
-
-Give users explicit control over optimization:
-
-```mojo
-# Let the library optimize when possible
-process_data(1024)  # May be optimized
-
-# Force compile-time optimization
-process_data(Parameter[1024]())  # Guaranteed optimization
-
-# Handle runtime values
-var size = get_user_input()
-process_data(size)  # Runtime handling
-```
-
-## Use Cases
-
-1. **Matrix operations** - Allow both fixed-size and dynamic matrices
-2. **Buffer management** - Support both static and dynamic buffer sizes
-3. **Algorithm selection** - Choose implementations based on compile-time or runtime parameters
-4. **Template specialization** - Provide optimized paths for common cases
 
 ## API Reference
 
