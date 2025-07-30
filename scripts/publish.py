@@ -61,7 +61,7 @@ def generate_recipe() -> None:
     }
 
     # Populate package information
-    package_name = "mojo-parameter-or-arg"
+    package_name = "parameter_or_arg"
     recipe["package"]["name"] = PROJECT_CONFIG["package"]["name"]
     recipe["package"]["version"] = PROJECT_CONFIG["package"]["version"]
 
