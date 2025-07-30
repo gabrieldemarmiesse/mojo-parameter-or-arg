@@ -12,7 +12,6 @@ preview = ["pixi-build"]
 
 [tasks]
 test = "mojo -I ./src ./tests/test_parameter_or_arg.mojo"
-test-all = "python scripts/test.py"
 format = "mojo format"
 
 [dependencies]
